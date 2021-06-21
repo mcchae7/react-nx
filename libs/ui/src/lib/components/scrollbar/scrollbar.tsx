@@ -5,7 +5,7 @@ import PerfectScrollbar from 'perfect-scrollbar';
 
 export const Scrollbar: React.FC<ScrollbarProps> = ({children}) => {
   const refContainer = useRef<HTMLDivElement>(null);
-  const componentName = 'h2o-scrollbar';
+  const componentName = 'mc-scrollbar';
   let ps: PerfectScrollbar;
 
   useEffect(() => {
