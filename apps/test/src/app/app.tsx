@@ -3,7 +3,7 @@ import { Scrollbar } from '@react-nx/ui'
 
 export function App() {
   return (
-    <div style={{height: '300px', position: 'relative'}}>
+    <div style={{height: '300px'}}>
       <Scrollbar>
         <div style={{height: '2000px'}}>Test</div>
       </Scrollbar>
