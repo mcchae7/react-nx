@@ -34,3 +34,12 @@ export function initComponent<P = BaseProps>(
     classNames,
   };
 }
+
+export function isEmpty(val: unknown): boolean {
+  return (
+    val === null ||
+    val === '' ||
+    (typeof val === 'string' && !val.trim()) ||
+    val === undefined
+  );
+}

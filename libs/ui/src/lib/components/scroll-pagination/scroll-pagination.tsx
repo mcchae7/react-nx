@@ -1,22 +1,42 @@
 import './scroll-pagination.scss';
-import { BaseProps, Column } from './../../ui.models';
+import { BaseProps, ComponentEvent } from './../../ui.models';
 import { Scrollbar } from '../scrollbar/scrollbar';
-import { initComponent } from '../../utils/utils';
+import { initComponent, isEmpty } from '../../utils/utils';
 
-/* eslint-disable-next-line */
-interface ScrollPaginationProps extends BaseProps {
+export interface ScrollPage {
+  startRowIndex: number;
+  endRowIndex: number;
+  index: number;
+  height: number;
+  extraHeight: number;
+  top: number;
+}
+
+export enum ScrollPaginationAction {
+  UPDATE_PAGES = 'UPDATE_PAGES',
+  GET_ROW_COUNT = 'GET_ROW_COUNT',
+}
+export interface ScrollPaginationEvent
+  extends ComponentEvent<ScrollPaginationAction> {
+  currentPageIndexes?: number[];
+  addingPageIndexes?: number[];
+  removingPageIndexes?: number[];
+  pageElements?: HTMLElement[];
+  pageRowCount?: number;
+  pages?: ScrollPage[];
+}
+
+interface ScrollPaginationProps extends BaseProps<ScrollPaginationEvent> {
   loadingText?: string;
   emptyText?: string;
   rowHeight?: number;
   displayLoadingText?: boolean;
   displayLoader?: boolean;
-  outsideScrollEl?: HTMLElement | typeof Scrollbar;
   minPageRowCount?: number;
   rowCount?: number;
-  scrollContentStyle?: { [key: string]: string };
-  columns?: Array<Column>;
   scrollbarYMarginTop?: number;
   scrollbarYMarginLeft?: number;
+  loading?: boolean;
 }
 
 export const ScrollPagination: React.FC<ScrollPaginationProps> = (props) => {
@@ -28,9 +48,17 @@ export const ScrollPagination: React.FC<ScrollPaginationProps> = (props) => {
       rowHeight: 35,
       displayLoader: true,
       minPageRowCount: 5,
+      loading: false,
     },
     props
   );
+
+  const { rowCount, onAction } = lastProps;
+
+  if (isEmpty(rowCount) && onAction) {
+    onAction({ action: ScrollPaginationAction.GET_ROW_COUNT });
+  }
+
   return (
     <div className={classNames}>
       <Scrollbar></Scrollbar>

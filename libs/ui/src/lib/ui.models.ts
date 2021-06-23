@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { PropsWithChildren, SyntheticEvent } from 'react';
 
 /*********** Enum **********/
 export enum SortDirection {
@@ -13,12 +13,17 @@ export enum Align {
   BOTTOM = 'BOTTOM',
 }
 /*********** Props **********/
-export interface BaseProps {
+export interface BaseProps<E> extends PropsWithChildren<unknown> {
   themes?: string[];
-  children?: ReactNode;
+  onAction?: (event: E) => void;
 }
 
 /*********** Interface **********/
+
+export interface ComponentEvent<T> {
+  action: T;
+  event?: SyntheticEvent;
+}
 
 export interface Column {
   field?: string; // field name;
